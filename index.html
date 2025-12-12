@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+
+  <body>
+    <div id="playlist"></div>
+
+    <script>
+    const user = "olivery4";
+    const repo = "hudson";
+    const folder = "mp3"; // folder in repo
+    const branch = "main"; // or master
+    
+    fetch(`https://api.github.com/repos/${user}/${repo}/contents/${folder}?ref=${branch}`)
+      .then(res => res.json())
+      .then(files => {
+        const playlist = document.getElementById('playlist');
+        files.forEach(file => {
+          if (file.name.endsWith(".mp3")) {
+            const audio = document.createElement('audio');
+            audio.src = file.download_url;  // direct link to MP3
+            audio.controls = true;
+            playlist.appendChild(audio);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
